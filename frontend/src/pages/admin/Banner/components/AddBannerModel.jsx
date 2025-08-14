@@ -82,14 +82,19 @@ const AddBannerModel = ({ isModalOpen, handleOk, handleCancel }) => {
             <div style={{ marginTop: 8 }}>Upload</div>
         </div>
     );
+    const onCancel = () => {
+        form.resetFields();
+        setFileList([]);
+        handleCancel();
+    };
 
     return (
         <Modal
             title="Add New Banner"
             open={isModalOpen}
-            onCancel={handleCancel}
+            onCancel={onCancel}
             footer={[
-                <Button key="cancel" onClick={handleCancel}>Cancel</Button>,
+                <Button key="cancel" onClick={onCancel}>Cancel</Button>,
                 <Button
                     key="submit"
                     type="primary"
@@ -99,8 +104,8 @@ const AddBannerModel = ({ isModalOpen, handleOk, handleCancel }) => {
                 >
                     Add Banner
                 </Button>
-
             ]}
+            destroyOnHidden
         >
             <Form
                 form={form}
@@ -111,7 +116,7 @@ const AddBannerModel = ({ isModalOpen, handleOk, handleCancel }) => {
                 <Form.Item
                     label="Banner Title"
                     name="title"
-                    rules={[{ required: true, message: 'Please input the banner title!' }]}
+                    rules={[{ required: true, message: 'Please input the banner title!' }, { pattern: /^[a-zA-Z0-9\- ]+$/, message: 'Only letters, numbers, hyphens (-), and spaces are allowed!' }]}
                 >
                     <Input placeholder="Enter banner title" />
                 </Form.Item>
@@ -126,29 +131,30 @@ const AddBannerModel = ({ isModalOpen, handleOk, handleCancel }) => {
 
                 <Form.Item
                     label="Banner Image"
-                    name="image" // keep it to group form layout but don't use rules
                 >
-                    <ImgCrop
-                        rotationSlider
-                        aspect={320 / 150}
-                        quality={1}
-                        modalTitle="Crop your banner"
-                    >
-                        <Upload
-                            name="image"
-                            listType="picture-card"
-                            fileList={fileList}
-                            beforeUpload={beforeUpload}
-                            onChange={onChange}
-                            onPreview={onPreview}
-                            showUploadList={{ showRemoveIcon: true }}
-                            customRequest={({ onSuccess }) => setTimeout(() => onSuccess("ok"), 0)}
+                    <div>
+                        <ImgCrop
+                            rotationSlider
+                            aspect={320 / 150}
+                            quality={1}
+                            modalTitle="Crop your banner"
                         >
-                            {fileList.length >= 1 ? null : uploadButton}
-                        </Upload>
-                    </ImgCrop>
-                    <div style={{ fontSize: '12px', color: '#888' }}>
-                        Recommended Size: <strong>320 x 150 px</strong>
+                            <Upload
+                                name="image"
+                                listType="picture-card"
+                                fileList={fileList}
+                                beforeUpload={beforeUpload}
+                                onChange={onChange}
+                                onPreview={onPreview}
+                                showUploadList={{ showRemoveIcon: true }}
+                                customRequest={({ onSuccess }) => setTimeout(() => onSuccess("ok"), 0)}
+                            >
+                                {fileList.length >= 1 ? null : uploadButton}
+                            </Upload>
+                        </ImgCrop>
+                        <div style={{ fontSize: '12px', color: '#888' }}>
+                            Recommended Size: <strong>320 x 150 px</strong>
+                        </div>
                     </div>
                 </Form.Item>
 

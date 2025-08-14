@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Modal,
-  Form,
-  Input,
-  InputNumber,
-  message,
-  Select,
-  DatePicker
-} from 'antd';
-import dayjs from 'dayjs';
+import { Modal, Form, Input, InputNumber, message, Select, DatePicker } from 'antd';
 import { addCoupon } from '../../../../services/admin/apiCoupon';
 
 const { Option } = Select;
@@ -23,8 +14,6 @@ function AddCouponModal({ isModalOpen, handleOk, handleCancel }) {
       startDate: values.startDate?.toISOString(),
       expiryDate: values.expiryDate?.toISOString(),
     };
-
-    // console.log("Submitting coupon:", payload);
 
     try {
       setLoading(true);
@@ -46,12 +35,17 @@ function AddCouponModal({ isModalOpen, handleOk, handleCancel }) {
     }
   };
 
+  const onCancel = () => {
+    form.resetFields();
+    handleCancel();
+  };
+
   return (
     <Modal
       title="Add Coupon"
       open={isModalOpen}
       onOk={form.submit}
-      onCancel={handleCancel}
+      onCancel={onCancel}
       confirmLoading={loading}
       okText="Add Coupon"
     >
@@ -63,7 +57,7 @@ function AddCouponModal({ isModalOpen, handleOk, handleCancel }) {
         <Form.Item
           label="Coupon Code"
           name="code"
-          rules={[{ required: true, message: 'Please enter the coupon code' }]}
+          rules={[{ required: true, message: 'Please enter the coupon code' }, { pattern: /^[a-zA-Z0-9\- ]+$/, message: 'Only letters, numbers, hyphens (-), and spaces are allowed!' }]}
         >
           <Input placeholder="e.g. SUMMER501" />
         </Form.Item>

@@ -61,7 +61,7 @@ function EditCouponModel({ isModalOpen, handleOk, handleCancel, couponData }) {
         <Form.Item
           label="Coupon Code"
           name="code"
-          rules={[{ required: true, message: 'Please enter coupon code!' }]}
+          rules={[{ required: true, message: 'Please enter coupon code!' }, { pattern: /^[a-zA-Z0-9\- ]+$/, message: 'Only letters, numbers, hyphens (-), and spaces are allowed!' }]}
         >
           <Input />
         </Form.Item>

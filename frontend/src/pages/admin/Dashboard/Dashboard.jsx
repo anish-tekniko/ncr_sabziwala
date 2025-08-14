@@ -1,4 +1,4 @@
-import { Col, Row, Spin } from 'antd'
+import { Col, message, Row, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import StaticsData from './components/StaticsData'
 import { getDashboard, getNewUser, getRecentTransaction } from '../../../services/admin/apiDashboard'
@@ -23,17 +23,19 @@ function Dashboard() {
             const res = await getDashboard();
             setData(res)
         } catch (error) {
+            console.log(error)
             message.error('Error fetching dashboard data');
         } finally {
             setLoading(false)
         }
     }
+
     const fetchRecentTransaction = async () => {
         try {
             const res = await getRecentTransaction();
             setRecentData(res);
         } catch (error) {
-            console.error('Error fetching dashboard data');
+            console.error('Error fetching dashboard data', error);
         } finally {
             setRecentLoading(false);
         }
@@ -44,7 +46,7 @@ function Dashboard() {
             const res = await getNewUser();
             setNewUser(res);
         } catch (error) {
-            console.error('Error fetching user data');
+            console.error('Error fetching user data', error);
         } finally {
             setNewUserLoading(false);
         }
@@ -53,26 +55,31 @@ function Dashboard() {
     // if (loading) return <Spin size='large' fullscreen />
 
     return (
-        <div className="p-4">
-            <Row gutter={[16, 16]}>
-                <Col xs={24} sm={24} md={24} lg={24}>
-                    {data ? <StaticsData data={data.countData} loading={loading} /> : <Spin size='large' />}
-                </Col>
-                <Col xs={24} sm={12} md={12} lg={12}>
-                    <SalesGraph data={data?.salesGraph} />
-                </Col>
-                {/* <Col xs={24} sm={12} md={12} lg={12}>
-                    <UserStatus data={data?.userStatus} />
-                </Col> */}
-                <Col xs={24} sm={12} md={12} lg={12}>
-                    <NewUserList data={newUser} loading={newUserLoading} />
-                </Col>
-                <Col xs={24} sm={12} md={12} lg={12}>
-                    <RecentTransactions data={recentData} loading={recentLoading} />
-                </Col>
-                
-            </Row>
-        </div>
+        <>
+            <div className="p-4">
+                <Row gutter={[16, 16]}>
+                    {/* Stats Block - full width */}
+                    <Col xs={24} sm={24} md={24} lg={24}>
+                        {data ? <StaticsData data={data.countData} loading={loading} /> : <Spin size="large" />}
+                    </Col>
+
+                    {/* SalesGraph - 100% width on mobile/tablet, 50% on desktop */}
+                    <Col xs={24} sm={24} md={12} lg={12}>
+                        <SalesGraph data={data?.salesGraph} />
+                    </Col>
+
+                    {/* NewUserList - 100% width on mobile/tablet, 50% on desktop */}
+                    <Col xs={24} sm={24} md={12} lg={12}>
+                        <NewUserList data={newUser} loading={newUserLoading} />
+                    </Col>
+
+                    {/* RecentTransactions - full width on all screens */}
+                    <Col xs={24} sm={24} md={24} lg={24}>
+                        <RecentTransactions data={recentData} loading={recentLoading} />
+                    </Col>
+                </Row>
+            </div>
+        </>
     )
 }
 

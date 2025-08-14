@@ -1,56 +1,48 @@
-// src/context/AuthContext.js
 import { createContext, useContext, useState, useEffect } from "react";
+import axiosInstance from "../utils/axiosInstance";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+    const [admin, setAdmin] = useState(null);
+    const [loading, setLoading] = useState(true); // for initial check
 
-    const [admin, setAdmin] = useState(() => {
-        const savedAdmin = localStorage.getItem("admin");
-        return savedAdmin ? JSON.parse(savedAdmin) : null;
-    })
-    const [adminToken, setAdminToken] = useState(() => localStorage.getItem('adminToken'));
+    const fetchAdminProfile = async () => {
+        try {
+            const res = await axiosInstance.get("/api/admin/settings"); // Your protected route
+            if (res.data.status) {
+                setAdmin(res.data.data);
+            }
+        } catch (err) {
+            console.log(err);
+            setAdmin(null);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    const [vendor, setVendor] = useState(() => {
-        const savedVendor = localStorage.getItem('vendor');
-        return savedVendor ? JSON.parse(savedVendor) : null;
-    })
-    const [vendorToken, setVendorToken] = useState(() => localStorage.getItem('vendorToken'))
+    useEffect(() => {
+        fetchAdminProfile();
+    }, []);
 
-    const adminLogin = (adminData, adminToken) => {
+    const adminLogin = (adminData) => {
         setAdmin(adminData);
-        setAdminToken(adminToken);
-        localStorage.setItem("admin", JSON.stringify(adminData));
-        localStorage.setItem("adminToken", adminToken)
-    }
+    };
 
-    const vendorLogin = (vendorData, vendorToken) => {
-        setVendor(vendorData);
-        setVendorToken(vendorToken);
-        localStorage.setItem("vendor", JSON.stringify(vendorData));
-        localStorage.setItem("vendorToken", vendorToken)
-    }
-
-    const adminLogout = () => {
+    const adminLogout = async () => {
+        try {
+            await axiosInstance.post("/api/admin/logout");
+        } catch (err) {
+            console.error("Admin logout failed:", err);
+        }
         setAdmin(null);
-        setAdminToken(null);
-        localStorage.removeItem("admin")
-        localStorage.removeItem("adminToken")
-    }
-
-    const vendorLogout = () => {
-        setVendor(null);
-        setVendorToken(null);
-        localStorage.removeItem("vendor");
-        localStorage.removeItem("vendorToken")
-    }
+    };
 
     return (
-        <AuthContext.Provider value={{ admin, adminToken, vendor, vendorToken, adminLogin, vendorLogin, adminLogout, vendorLogout }}>
+        <AuthContext.Provider value={{ admin, adminLogin, adminLogout, loading }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-// Custom hook
 export const useAuth = () => useContext(AuthContext);

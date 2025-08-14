@@ -3,6 +3,7 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
     baseURL: BASE_URL,
+    withCredentials: true, // ⬅️ very important for cookie auth
     headers: { "Content-Type": "application/json" }
 });
 
@@ -10,7 +11,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
     const adminToken = localStorage.getItem('adminToken');
     const vendorToken = localStorage.getItem('vendorToken');
-    
+
 
     if (config.url.includes("/api/admin")) {
         // console.log("Admin Token on axios :".adminToken)
@@ -23,10 +24,6 @@ axiosInstance.interceptors.request.use((config) => {
         }
     }
 
-    // const token = localStorage.getItem("token");
-    // if (token) {
-    //     config.headers.Authorization = `Bearer ${token}`;
-    // }
     return config;
 });
 

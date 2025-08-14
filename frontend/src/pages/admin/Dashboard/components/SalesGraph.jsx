@@ -46,31 +46,35 @@ function SalesGraph({ data }) {
     };
 
     return (
-        <Card
-            title="Sales Graph"
-            style={{
-                borderRadius: 12,
-                border: '1.5px solid #e0e0e0',
-                boxShadow: 'none',
-                minWidth: 400,
-                minHeight: 400,
-            }}
-            bodyStyle={{ padding: 24 }}
-            extra={
-                <Radio.Group
-                    value={timeFrame}
-                    onChange={(e) => setTimeFrame(e.target.value)}
-                    buttonStyle="solid"
-                >
-                    <Radio.Button value="7d">7 Days</Radio.Button>
-                    <Radio.Button value="30d">30 Days</Radio.Button>
-                </Radio.Group>
-            }
-        >
-            <div style={{ height: 340, width: '100%' }}>
-                <Bar data={chartData} options={options} />
-            </div>
-        </Card>
+        <>
+            <Card
+                title="Sales Graph"
+                style={{
+                    borderRadius: 12,
+                    border: '1.5px solid #e0e0e0',
+                    boxShadow: 'none',
+                    minWidth: 400,
+                    minHeight: 400,
+                }}
+                styles={{
+                    body: { padding: 24 }, // ✅ This replaces `bodyStyle`
+                }}
+                extra={
+                    <Radio.Group
+                        value={timeFrame}
+                        onChange={(e) => setTimeFrame(e.target.value)}
+                        buttonStyle="solid"
+                    >
+                        <Radio.Button value="7d">7 Days</Radio.Button>
+                        <Radio.Button value="30d">30 Days</Radio.Button>
+                    </Radio.Group>
+                }
+            >
+                <div style={{ height: 340, width: '100%' }}>
+                    <Bar data={chartData} options={options} />
+                </div>
+            </Card>
+        </>
     );
 }
 

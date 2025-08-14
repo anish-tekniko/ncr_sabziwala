@@ -39,7 +39,7 @@ function NewUserList({ data, loading }) {
                 boxShadow: 'none',
                 minWidth: 320,
             }}
-            bodyStyle={{ padding: 18 }}
+            styles={{ padding: 18 }}
             loading={loading}
         >
             <div

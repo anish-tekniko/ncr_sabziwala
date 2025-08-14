@@ -143,7 +143,7 @@ const EditProduct = () => {
                     initialValues={{ isDealOfTheDay: false, isAvailable: true }}
                 >
                     <Row gutter={16}>
-                        <Col span={12}><Form.Item name="name" label="Product Name" rules={[{ required: true }]}><Input placeholder="e.g., Organic Basmati Rice" /></Form.Item></Col>
+                        <Col span={12}><Form.Item name="name" label="Product Name" rules={[{ required: true, message: 'Please enter product name!' }, { pattern: /^[a-zA-Z0-9\- ]+$/, message: 'Only letters, numbers, hyphens (-), and spaces are allowed!' }]}><Input placeholder="e.g., Organic Basmati Rice" /></Form.Item></Col>
                         <Col span={12}><Form.Item name="tags" label="Tags"><Select mode="tags" placeholder="e.g., organic, rice" /></Form.Item></Col>
                     </Row>
 

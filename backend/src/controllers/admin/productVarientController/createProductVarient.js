@@ -4,6 +4,7 @@ const Product = require("../../../models/product");
 const ProductVarient = require("../../../models/productVarient");
 const AppError = require("../../../utils/AppError");
 const catchAsync = require("../../../utils/catchAsync");
+const path = require("path")
 
 const validateRequiredField = (field, fieldName) => {
     if (!field || (typeof field === 'string' && !field.trim())) {
@@ -49,7 +50,7 @@ exports.createProductVarient = catchAsync(async (req, res, next) => {
     // Handle variant image uploads
     let variantImages = [];
     if (req.files && req.files.images) {
-        variantImages = req.files.images.map(file => `${file.destination}/${file.filename}`);
+        variantImages = req.files.images.map(file => path.join(file.destination, file.filename).replace(/\\/g, "/"));
     }
 
     // Create variant

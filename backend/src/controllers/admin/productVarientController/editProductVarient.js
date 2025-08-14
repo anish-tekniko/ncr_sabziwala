@@ -1,6 +1,7 @@
 const ProductVarient = require("../../../models/productVarient");
 const AppError = require("../../../utils/AppError");
 const catchAsync = require("../../../utils/catchAsync");
+const path = require("path")
 
 exports.editProductVarient = catchAsync(async (req, res, next) => {
     const { productId, variantId } = req.params;
@@ -31,7 +32,7 @@ exports.editProductVarient = catchAsync(async (req, res, next) => {
     let newImages = variant.images || [];
     if (req.files && req.files.images) {
         const uploadedImages = Array.isArray(req.files.images) ? req.files.images : [req.files.images];
-        const filePaths = uploadedImages.map(file => `${file.destination}/${file.filename}`);
+        const filePaths = uploadedImages.map(file => path.join(file.destination, file.filename).replace(/\\/g, "/"));
         newImages = [...newImages, ...filePaths]
     }
 

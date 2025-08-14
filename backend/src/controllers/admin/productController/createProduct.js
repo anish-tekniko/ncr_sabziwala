@@ -1,6 +1,7 @@
 const Product = require("../../../models/product");
 const AppError = require("../../../utils/AppError");
 const catchAsync = require("../../../utils/catchAsync");
+const path = require("path")
 
 // const validateRequiredField = (field, fieldName) => {
 //     if (!field || (typeof field === 'string' && !field.trim())) {
@@ -41,7 +42,7 @@ exports.createProduct = catchAsync(async (req, res, next) => {
     // Handle product-level images
     let imageUrls = [];
     if (req.files && req.files.images) {
-        imageUrls = req.files.images.map((file) => `${file.destination}/${file.filename}`);
+        imageUrls = req.files.images.map((file) => path.join(file.destination, file.filename).replace(/\\/g, "/"));
     }
 
     // Create Product (without variants)

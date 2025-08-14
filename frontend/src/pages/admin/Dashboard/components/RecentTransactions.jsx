@@ -2,7 +2,6 @@ import { Card, List, Avatar, Badge } from 'antd';
 import { DollarCircleOutlined } from '@ant-design/icons';
 
 function RecentTransactions({ data, loading }) {
-
     const statusColorMap = {
         pending: 'orange',
         accepted: 'blue',
@@ -14,19 +13,19 @@ function RecentTransactions({ data, loading }) {
     return (
         <Card
             title="Recent Order"
-            bordered
+            variant="outlined" // ✅ replaces `bordered`
             style={{
                 borderRadius: 12,
                 borderColor: '#e0e0e0',
                 boxShadow: 'none',
                 minWidth: 320,
             }}
-            bodyStyle={{ padding: 18 }}
+            styles={{ body: { padding: 18 } }} // ✅ replaces `bodyStyle`
             loading={loading}
         >
             <div
                 style={{
-                    maxHeight: 520, // Adjust based on your item height; 10 items * ~50px each
+                    maxHeight: 520,
                     overflowY: 'auto',
                 }}
             >
@@ -35,7 +34,7 @@ function RecentTransactions({ data, loading }) {
                     dataSource={data || []}
                     split={false}
                     locale={{ emptyText: "No transactions" }}
-                    renderItem={(item, idx) => (
+                    renderItem={(item) => (
                         <List.Item
                             style={{
                                 background: '#fafbfc',

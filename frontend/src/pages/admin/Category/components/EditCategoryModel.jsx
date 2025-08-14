@@ -97,7 +97,7 @@ function EditCategoryModel({ isModalOpen, handleOk, handleCancel, categoryData }
                 <Form.Item
                     label="Category Name"
                     name="categoryName"
-                    rules={[{ required: true, message: 'Please enter category name!' }]}
+                    rules={[{ required: true, message: 'Please enter category name!' }, { pattern: /^[a-zA-Z0-9\- ]+$/, message: 'Only letters, numbers, hyphens (-), and spaces are allowed!' }]}
                 >
                     <Input placeholder='Enter Category Name' />
                 </Form.Item>

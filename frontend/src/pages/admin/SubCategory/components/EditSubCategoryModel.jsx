@@ -4,13 +4,11 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import ImgCrop from 'antd-img-crop';
 import dataURLtoFile from '@utils/fileConverter';
 import { getAllCategory, updateCategory } from '@services/apiCategory';
-import { useParams } from 'react-router';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const { Option } = Select;
 
 function EditSubCategoryModel({ isModalOpen, handleOk, handleCancel, categoryData }) {
-    const { categoryId } = useParams();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState();
@@ -140,12 +138,12 @@ function EditSubCategoryModel({ isModalOpen, handleOk, handleCancel, categoryDat
                 <Form.Item
                     label="Sub Category Name"
                     name="subcategoryName"
-                    rules={[{ required: true, message: 'Please enter sub category name!' }]}
+                    rules={[{ required: true, message: 'Please enter sub category name!' }, { pattern: /^[a-zA-Z0-9\- ]+$/, message: 'Only letters, numbers, hyphens (-), and spaces are allowed!' }]}
                 >
                     <Input placeholder="Enter Sub Category Name" />
                 </Form.Item>
 
-                <Form.Item label="Sub Category Image" name="image">
+                <Form.Item label="Sub Category Image">
                     <ImgCrop
                         rotationSlider
                         aspect={1}

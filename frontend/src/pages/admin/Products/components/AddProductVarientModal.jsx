@@ -120,7 +120,7 @@ const AddProductVarientModal = ({ open, onClose, onSuccess, productId }) => {
                 <Form.Item
                     label="Variant Name"
                     name="name"
-                    rules={[{ required: true, message: 'Enter variant name' }]}
+                    rules={[{ required: true, message: 'Enter variant name' }, { pattern: /^[a-zA-Z0-9\- ]+$/, message: 'Only letters, numbers, hyphens (-), and spaces are allowed!' }]}
                 >
                     <Input placeholder="e.g. 500g, 1kg" />
                 </Form.Item>
@@ -144,7 +144,7 @@ const AddProductVarientModal = ({ open, onClose, onSuccess, productId }) => {
                         <Form.Item
                             label="Original Price"
                             name="originalPrice"
-                            rules={[{ required: true, message: 'Enter original price' }]}
+                            rules={[{ required: true, message: 'Enter original price' }, { pattern: /^[0-9]+$/, message: 'Only numbers are allowed!' }]}
                         >
                             <InputNumber
                                 min={0}
@@ -157,7 +157,7 @@ const AddProductVarientModal = ({ open, onClose, onSuccess, productId }) => {
                         <Form.Item
                             label="Selling Price"
                             name="price"
-                            rules={[{ required: true, message: 'Enter selling price' }]}
+                            rules={[{ required: true, message: 'Enter selling price' }, { pattern: /^[0-9]+$/, message: 'Only numbers are allowed!' }]}
                         >
                             <InputNumber
                                 min={0}

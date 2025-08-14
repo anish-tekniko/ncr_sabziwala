@@ -28,13 +28,6 @@ const BannerTable = ({ searchText, onEdit, onDelete, data, loading }) => {
             key: 'title',
             align: "center"
         },
-        // {
-        //     title: 'Service',
-        //     dataIndex: 'service',
-        //     key: 'service',
-        //     align: "center",
-        //     render: (_, record) => record.serviceId.name || "abc"
-        // },
         {
             title: 'Section',
             dataIndex: 'section',
@@ -73,6 +66,7 @@ const BannerTable = ({ searchText, onEdit, onDelete, data, loading }) => {
             dataSource={data.filter(item =>
                 item.title.toLowerCase().includes(searchText.toLowerCase())
             )}
+            rowKey="_id"
             columns={columns}
             scroll={{ x: true }}
             bordered={false}

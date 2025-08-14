@@ -34,6 +34,7 @@ import ExploreSection from './pages/admin/ExploreSection/ExploreSection'
 import ExploreSectionTable from './pages/admin/Explore/components/ExploreSectionTable'
 import AddProduct from './pages/admin/Products/AddProduct'
 import EditProduct from './pages/admin/Products/EditProduct'
+import AdminPublicRoute from './components/AdminPublicRoute'
 
 
 
@@ -46,7 +47,7 @@ function App() {
         <Route path='/cms/:page' element={<Cms />} />
 
         {/* admin route */}
-        <Route path='/admin/login' element={<Login />} />
+        <Route path='/admin/login' element={<AdminPublicRoute> <Login /> </AdminPublicRoute>} />
         <Route path='/admin' element={<AdminPrivateRoute> <AdminLayout /> </AdminPrivateRoute>}>
           <Route index element={<Dashboard />} />
           <Route path='banner' element={<Banner />} />

@@ -33,6 +33,7 @@ function Charges() {
             setSettingData(data.data.settings[0])
             setImageUrl(`${BASE_URL}/${data.data.settings[0].logo}`)
         } catch (error) {
+            console.log(error)
             message.error("Failed to load settings.");
         } finally {
             setLoading(false)
@@ -67,24 +68,15 @@ function Charges() {
         formData.append("razorpayKeyId", values.razorpayKeyId);
         formData.append("razorpayKeySecret", values.razorpayKeySecret);
 
-        // console.log("This is file original object")
-        // console.log(values.image.fileList[1].originFileObj)
-
-        // console.log("This is file ")
-        // console.log(values.image.file)
-
         if (values.image && values.image.file) {
             formData.append("image", values.image.file);
         }
 
-        // formData.forEach((e,v)=>{
-        //     console.log(e,v)
-        // })
-
         try {
-            const res = await updateSettings(settingData._id, formData);
+            await updateSettings(settingData._id, formData);
             message.success('Settings updated successfully!');
         } catch (error) {
+            console.log(error)
             message.error('Error updating settings');
         } finally {
             setUpdateLoading(false)
@@ -263,7 +255,7 @@ function Charges() {
                             <Form.Item
                                 label="Mobile No"
                                 name="mobile"
-                                rules={[{ required: true, message: 'Please enter mobile no' }]}
+                                rules={[{ required: true, message: 'Please enter mobile no' }, { pattern: /^[0-9]+$/, message: 'Only numbers are allowed!' }]}
                             >
                                 <Input placeholder="Enter Mobile No." size='large' />
                             </Form.Item>
@@ -286,7 +278,7 @@ function Charges() {
                         name="googleMapApiKey"
                         rules={[{ required: true, message: 'Please enter google map api key' }]}
                     >
-                        <Input placeholder="Enter google map api" size='large' />
+                        <Input placeholder="Enter google map api" size='large' disabled />
                     </Form.Item>
 
                     {/* razorpay api key setting */}
@@ -295,7 +287,7 @@ function Charges() {
                         name="razorpayKeyId"
                         rules={[{ required: true, message: 'Please enter razorpay key id' }]}
                     >
-                        <Input placeholder="Enter razorpay key id" size='large' disabled/>
+                        <Input placeholder="Enter razorpay key id" size='large' disabled />
                     </Form.Item>
 
                     {/* razorpay api key setting */}
@@ -304,7 +296,7 @@ function Charges() {
                         name="razorpayKeySecret"
                         rules={[{ required: true, message: 'Please enter razorpay key secret' }]}
                     >
-                        <Input placeholder="Enter razorpay key secret" size='large' disabled/>
+                        <Input placeholder="Enter razorpay key secret" size='large' disabled />
                     </Form.Item>
 
                     {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

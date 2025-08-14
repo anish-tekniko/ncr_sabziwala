@@ -94,12 +94,18 @@ function AddSubCategoryModel({ isModalOpen, handleOk, handleCancel }) {
         }
     };
 
+    const onCancel = () => {
+        form.resetFields();
+        setImageUrl(null);
+        handleCancel();
+    };
+
     return (
         <Modal
             title="Add Sub Category"
             open={isModalOpen}
             onOk={form.submit}
-            onCancel={handleCancel}
+            onCancel={onCancel}
             confirmLoading={loading}
             okText="Add Sub Category"
         >
@@ -134,7 +140,7 @@ function AddSubCategoryModel({ isModalOpen, handleOk, handleCancel }) {
                     <Input placeholder='Enter Sub Category Name' />
                 </Form.Item>
 
-                <Form.Item label="Sub Category Image" name="image">
+                <Form.Item label="Sub Category Image">
                     <ImgCrop
                         rotationSlider
                         aspect={1}

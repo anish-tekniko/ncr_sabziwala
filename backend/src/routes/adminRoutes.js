@@ -63,7 +63,7 @@ const { createServiceabelAreas } = require("../controllers/admin/serviceableArea
 const { getServiceableAreas } = require("../controllers/admin/serviceableAreasController/getServiceableAreas");
 const { updateServiceableAreas } = require("../controllers/admin/serviceableAreasController/updateServiceableAreas");
 const { deleteServiceableAreas } = require("../controllers/admin/serviceableAreasController/deleteServiceableAreas");
-const { deleteBanner } = require("../controllers/admin/bannerController/deleteCategory");
+const { deleteBanner } = require("../controllers/admin/bannerController/deleteBanner");
 const { createProductVarient } = require("../controllers/admin/productVarientController/createProductVarient");
 const { getProductVarient } = require("../controllers/admin/productVarientController/getProductVarient");
 const { editProductVarient } = require("../controllers/admin/productVarientController/editProductVarient");
@@ -74,6 +74,7 @@ const { getRecentTransactions } = require("../controllers/admin/dashboardControl
 const { getNewUsers } = require("../controllers/admin/dashboardController/getNewUsers");
 const { setCategoryOrder } = require("../controllers/admin/categoryController/setCategoryOrder");
 const { deleteProductVarient } = require("../controllers/admin/productVarientController/deleteProductVarient");
+const { logout } = require("../controllers/admin/auth/logout");
 const router = express.Router()
 
 router.get("/test/admin", (req, res) => {
@@ -87,6 +88,7 @@ router.get("/test/admin", (req, res) => {
 //------------------------------------------------
 router.post('/signup', signup)
 router.post('/login', login)
+router.post('/logout', logout)
 router.get("/dashboard", adminAuthenticate, getAllData)
 router.get("/recent-transactions", getRecentTransactions)
 router.get("/new-users", getNewUsers)

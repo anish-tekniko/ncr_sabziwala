@@ -72,14 +72,21 @@ function AddCategoryModel({ isModalOpen, handleOk, handleCancel }) {
         }
     };
 
+    const onCancel = () => {
+        form.resetFields();
+        setImageUrl(null);
+        handleCancel();
+    };
+
     return (
         <Modal
             title="Add Category"
             open={isModalOpen}
             onOk={form.submit}
-            onCancel={handleCancel}
+            onCancel={onCancel}
             confirmLoading={loading}
             okText="Add Category"
+            destroyOnHidden
         >
             <Form
                 form={form}
@@ -90,40 +97,42 @@ function AddCategoryModel({ isModalOpen, handleOk, handleCancel }) {
                 <Form.Item
                     label="Category Name"
                     name="categoryName"
-                    rules={[{ required: true, message: 'Please enter category name!' }]}
+                    rules={[{ required: true, message: 'Please enter category name!' }, { pattern: /^[a-zA-Z0-9\- ]+$/, message: 'Only letters, numbers, hyphens (-), and spaces are allowed!' }]}
                 >
                     <Input placeholder='Enter New Category Name' />
                 </Form.Item>
 
-                <Form.Item label="Category Image" name="image">
-                    <ImgCrop
-                        rotationSlider
-                        aspect={1}
-                        quality={1}
-                        modalTitle="Crop your category image"
-                    >
-                        <Upload
-                            name="image"
-                            listType="picture-card"
-                            className="avatar-uploader"
-                            showUploadList={false}
-                            beforeUpload={beforeUpload}
-                            customRequest={({ onSuccess }) => setTimeout(() => onSuccess("ok"), 0)}
-                            onChange={handleChange}
+                <Form.Item label="Category Image">
+                    <div>
+                        <ImgCrop
+                            rotationSlider
+                            aspect={1}
+                            quality={1}
+                            modalTitle="Crop your category image"
                         >
-                            {imageUrl ? (
-                                <img
-                                    src={imageUrl}
-                                    alt="Preview"
-                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                />
-                            ) : (
-                                uploadButton
-                            )}
-                        </Upload>
-                    </ImgCrop>
-                    <div style={{ fontSize: '12px', color: '#888' }}>
-                        Recommended Size: <strong>150 x 150 px</strong>
+                            <Upload
+                                name="image"
+                                listType="picture-card"
+                                className="avatar-uploader"
+                                showUploadList={false}
+                                beforeUpload={beforeUpload}
+                                customRequest={({ onSuccess }) => setTimeout(() => onSuccess("ok"), 0)}
+                                onChange={handleChange}
+                            >
+                                {imageUrl ? (
+                                    <img
+                                        src={imageUrl}
+                                        alt="Preview"
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
+                                ) : (
+                                    uploadButton
+                                )}
+                            </Upload>
+                        </ImgCrop>
+                        <div style={{ fontSize: '12px', color: '#888' }}>
+                            Recommended Size: <strong>150 x 150 px</strong>
+                        </div>
                     </div>
                 </Form.Item>
             </Form>

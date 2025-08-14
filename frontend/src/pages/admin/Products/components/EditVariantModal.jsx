@@ -136,7 +136,7 @@ const EditVariantModal = ({ visible, onClose, onSave, variant, productId }) => {
             forceRender
         >
             <Form form={form} layout="vertical">
-                <Form.Item label="Variant Name" name="name" rules={[{ required: true }]}>
+                <Form.Item label="Variant Name" name="name" rules={[{ required: true, message: 'Enter variant name' }, { pattern: /^[a-zA-Z0-9\- ]+$/, message: 'Only letters, numbers, hyphens (-), and spaces are allowed!' }]}>
                     <Input />
                 </Form.Item>
                 <Form.Item label="Unit" name="unit" rules={[{ required: true }]}>

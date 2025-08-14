@@ -4,6 +4,7 @@ const catchAsync = require("../../../utils/catchAsync");
 const createToken = require("../../../utils/createToken");
 
 exports.login = catchAsync(async (req, res, next) => {
+    console.log("working")
     let { email, password } = req.body
     if (!email || !password) return next(new AppError("email and password are required.", 404));
 
